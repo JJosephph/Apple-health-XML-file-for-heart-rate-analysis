@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <title>健康数据</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            text-align: center; /* 数据居中 */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            background-color: #fff;
+            margin: 20px 0; /* 调整图片上下边距 */
+        }
+
+        form {
+            margin: 20px 0; /* 调整表单上下边距 */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            display: none; /* 隐藏原始文件选择框 */
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer; /* 添加手型光标 */
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3;
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 0 10px; /* 调整按钮间距 */
+        }
+
+        a.button:hover {
+            background-color: #0056b3;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<h1>健康数据</h1>
+
+<p>平均心率：{{ average_heart_rate }}</p>
+<p>最高心率：{{ max_heart_rate }}</p>
+<p>最低心率：{{ min_heart_rate }}</p>
+<p>总心跳数：{{ total_heart_beats }}</p>
+
+<form action="/upload_xml" method="post" enctype="multipart/form-data">
+    <label for="xmlFile">上传 XML 文件:</label>
+    <input type="file" id="xmlFile" name="xmlFile" accept=".xml">
+    <label for="xmlFile" class="upload-button">选择文件</label>
+</form>
+
+{% if chart_image %}
+<img src="data:image/png;base64,{{ chart_image }}" alt="Chart">
+<br>
+<a href="/download_pdf" download="HealthDataAnalysis.pdf" class="button">下载 PDF</a>
+{% endif %}
+
+<!-- 添加按钮链接到其他页面 -->
+<a href="/line_chart" class="button">查看心率分布</a>
+<a href="/daily_average_chart" class="button">查看每日平均心率折线图</a>
+<a href="/pie_chart" class="button">查看心率分布饼图</a>
+<a href="/all_chart" class="button">图表集合查看（页面可下载）</a>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<script>
+    document.getElementById('xmlFile').addEventListener('change', function () {
+        var fileInput = document.getElementById('xmlFile');
+        var formData = new FormData();
+        formData.append('xmlFile', fileInput.files[0]);
+
+        fetch('/upload_xml', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // 使用 SweetAlert2 显示错误信息
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error
+                });
+            } else {
+                // 使用 SweetAlert2 显示成功信息
+                Swal.fire({
+                    icon: 'success',
+                    title: '上传成功',
+                    text: '点击下方图表看看结果吧！'
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
+</body>
+</html>

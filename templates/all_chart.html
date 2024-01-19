@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导出为PDF</title>
+
+    <!-- 添加样式 -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px; /* 添加页面边距 */
+            color: #333; /* 标题颜色 */
+        }
+
+        h1 {
+            margin-bottom: 10px; /* 调整标题下边距 */
+        }
+
+        img {
+            width: 50%; /* 图片宽度占满父容器 */
+            margin-bottom: 20px; /* 调整图片下边距 */
+        }
+
+        #download-btn,
+        #return-home-btn {
+            display: inline-block;
+            padding: 10px 20px; /* 调整按钮内边距 */
+            margin-top: 10px; /* 调整按钮上边距 */
+            background-color: #3498db; /* 按钮背景色 */
+            color: #fff; /* 按钮文字颜色 */
+            text-decoration: none;
+            border-radius: 5px; /* 圆角 */
+        }
+
+        #download-btn:hover,
+        #return-home-btn:hover {
+            background-color: #2980b9; /* 鼠标悬停时的背景色 */
+        }
+    </style>
+</head>
+<body>
+    <h1>导出为PDF</h1>
+
+    <p>心率建议：{{ heart_rate_advice }}</p>
+
+    <h2>折线图</h2>
+    <img src="data:image/png;base64,{{ line_chart_image }}" alt="心率折线图">
+
+    <h2>每日平均心率折线图</h2>
+    <img src="data:image/png;base64,{{ daily_average_chart_image }}" alt="每日平均心率折线图">
+
+    <h2>心率分布饼图</h2>
+    <img src="data:image/png;base64,{{ pie_chart_image }}" alt="心率分布饼图">
+
+    <!-- 增加下载按钮 -->
+    <a id="download-btn" href="/download_pdf" download="HealthDataAnalysis.pdf">下载 PDF</a>
+
+    <!-- 返回首页按钮 -->
+    <a id="return-home-btn" href="/">返回首页</a>
+</body>
+</html>
