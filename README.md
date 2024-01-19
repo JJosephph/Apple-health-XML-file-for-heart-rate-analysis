@@ -34,4 +34,4 @@
 ![image](https://github.com/JJosephph/Apple-health-XML-file-for-heart-rate-analysis/assets/124876944/35d0377a-658f-48a4-bcc5-791eb1cf2384)
 # 数据从哪来？
 ![image](https://github.com/JJosephph/Apple-health-XML-file-for-heart-rate-analysis/assets/124876944/53d59837-2613-45f4-8285-1243459881ed)
-![Uploading image.png…]()
+![image](https://github.com/JJosephph/Apple-health-XML-file-for-heart-rate-analysis/assets/124876944/b34280e0-f155-41db-8f08-924550879e4f)
